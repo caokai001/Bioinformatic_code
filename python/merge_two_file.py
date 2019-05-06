@@ -11,3 +11,25 @@ for i in range(len(counts)):
 	file_d=pd.read_csv(deseq2_PATH+"/"+tmp+".deseq2.output.csv",header=0,sep=",")
 	R=pd.merge(file_d,file_c,how="left",left_on="Row.names",right_on="Geneid")
 	R.to_csv("/public/home/xdyu/kcao/ChIP-seq-BWA-over/8.DESeq2/05.results/"+tmp+'.result.csv',sep=",")
+
+###Convert gene ID
+##python3 接受参数：usage python 脚本名 输入文件 
+##refrence https://www.biostars.org/p/22/
+##在线工具需要联网
+import glob
+import pandas as pd
+import sys
+import mygene
+mg = mygene.MyGeneInfo()
+
+A=[]
+with open(sys.argv[1],"r") as f:
+    for line in f.readlines():
+        A.append(line.strip())
+##A=A[1:5]
+mg = mygene.MyGeneInfo()
+B=mg.querymany(A,scopes="ensembltranscript",fields=[ "entrezgene", "symbol","name","alias"],species="human",as_dataframe=True)
+B.to_csv(str(sys.argv[1])+".convert.csv")
+
+运行：
+for i in *.genelist;do (nohup python gene_convert.py $i &);done
