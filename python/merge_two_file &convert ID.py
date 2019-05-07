@@ -51,8 +51,10 @@ def fetch(genes):
     from urllib.parse import urlencode
     import json
     data = ",".join(genes)
-    data = urlencode({"q": data, 'scope': 'ensembl.transcript'})
+    data=urlencode({"q":data,'scopes':'all'})
     req = urlopen("http://mygene.info/v3/query", data=data.encode())
     return json.loads(req.read().decode())
 genes=['ENSMUST174625']
 dic=fetch(genes)
+
+fetch(["ENSG00000130066"])
