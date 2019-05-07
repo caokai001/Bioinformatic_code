@@ -38,13 +38,21 @@ for i in *.genelist;do (nohup python gene_convert.py $i &);done
 
 ###爬取mygene  https://docs.mygene.info/en/latest/doc/query_service.html#scopes?tdsourcetag=s_pcqq_aiomsg
 
-In [1255]: def fetch(genes): 
-      ...:     from urllib.request import urlopen 
-      ...:     from urllib.parse import urlencode 
-      ...:     import json 
-      ...:     data=",".join(genes) 
-      ...:     data=urlencode({"q":data,'scope':'ensembl.transcript'}) 
-      ...:     req=urlopen("http://mygene.info/v3/query",data=data.encode()) 
-      ...:     return json.loads(req.read().decode()) 
-In [1255]: genes=['ENSMUST174625'] 
-In [1255]: dic=fetch(genes)
+A=[]
+with open("k27me3-EAF1.result.genelist","r") as f:
+    for line in f.readlines():
+        A.append(line.strip())
+
+
+
+
+def fetch(genes):
+    from urllib.request import urlopen
+    from urllib.parse import urlencode
+    import json
+    data = ",".join(genes)
+    data = urlencode({"q": data, 'scope': 'ensembl.transcript'})
+    req = urlopen("http://mygene.info/v3/query", data=data.encode())
+    return json.loads(req.read().decode())
+genes=['ENSMUST174625']
+dic=fetch(genes)
