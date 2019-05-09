@@ -1,17 +1,23 @@
-setwd("C:/Users/16926/Desktop/111/")
-par(mar = c(5, 5, 5, 3),cex.lab  = 2,mfcol=c(3,4))
-type<-c("27AC-siEAF1","27AC-siEAF2","27AC-siGFP",
-        "k27me3-siEAF1","k27me3-siEAF2","k27me3-siGFP",
-        "k4me1-siEAF1","k4me1-siEAF2","k4me1-siGFP",
-        "K4me3-siEAF1","K4me3-siEAF2","K4me3-siGFP"
-        )
-for(i in c(1:12)){
-  data<-read.table(paste(type[i],".tab",sep = ""),header = T)
-  cols <- densCols(data[,c(4,5)], colramp=colorRampPalette(
+######################deeptools 得到的散点图可视化重复性
+library(stringi)
+file=read.table("si_unique_bam_readCounts.tab",header = T)
+
+A=names(file)
+#numbers=c(10,12,14,20,22,24,26)
+numbers=c(4,6,8,10,12,14,16,18,20,22,24,26)
+for (i in numbers){
+  png(paste0(stri_sub(A[i],,-15),"_correlation.png"),width = 480, height = 480)
+  data<-file[,i:(i+1)]   ###add ()
+  d<-log2(data)  ###+1
+  cols <- densCols(d[,c(1,2)], colramp=colorRampPalette(
     c("DarkBlue","blue","cyan","green","yellow","orange", "red")), nbin = 100)
-  plot(data[,c(4,5)], 
-       xlab="replicate_1",ylab="replicate_2",main=type[i],
-       col=cols,pch=20,cex.main=2.2)
-  legend("topleft", cex=2,bty="n",
-         paste("Pcc = ", round(cor(data[,c(4,5)], method = "pearson")[1,2],3)))
+  plot(d[,c(1,2)], 
+       xlab=A[i],ylab=A[i+1],main=stri_sub(A[i],,-15),
+       col=cols,pch=20,cex.main=1.5,cex.lab=1.3)
+  legend("topleft", cex=1,bty="n",
+         paste("Spearman = ", round(cor(data[,c(1,2)], method = "spearman")[1,2],3)))
+  legend("topright", cex=1,bty="n",
+         paste("pcc = ", round(cor(data[,c(1,2)], method = "pearson")[1,2],3)))
+  dev.off()
 }
+
