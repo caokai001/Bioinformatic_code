@@ -20,3 +20,5 @@ for (i in numbers){
          paste("pcc = ", round(cor(data[,c(1,2)], method = "pearson")[1,2],3)))
   dev.off()
 }
+
+###效果如下：https://github.com/caokai001/Bioinformatic_code/blob/master/%E5%9B%BE%E7%89%87%E8%B5%84%E6%96%99%E5%BA%93/%E6%95%A3%E7%82%B9%E5%9B%BE.png
