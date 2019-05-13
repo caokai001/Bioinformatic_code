@@ -90,7 +90,7 @@ ggo <- groupGO(gene = test1$ENTREZID, OrgDb = org.Hs.eg.db, ont = "BP",level = 3
 ego_BP <- enrichGO(gene = test1$ENTREZID, 
                 #背景基因集
                 OrgDb = org.Hs.eg.db, #没有organism="human"，改为OrgDb=org.Hs.eg.db
-				        #keytype = 'ENSEMBL',
+				        #keyType = 'ENSEMBL',
                 ont = "BP", #也可以是 CC  BP  MF中的一种
                 pAdjustMethod = "BH", #矫正方式 holm”, “hochberg”, “hommel”, “bonferroni”, “BH”, “BY”, “fdr”, “none”中的一种
                 pvalueCutoff = 1, #P值会过滤掉很多，可以全部输出
