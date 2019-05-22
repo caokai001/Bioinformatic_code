@@ -16,3 +16,4 @@ scatterplot3d(pca$x[,1:3],color=rep(c(1,2,3,4,1,2,3,4),each=3),pch=rep(c(16,17),
 
 ##参考来源：http://www.omicsclass.com/article/167
 ##三维散点图包：http://www.sthda.com/english/wiki/scatterplot3d-3d-graphics-r-software-and-data-visualization
+##生信笔记：http://www.bioinfo-scrounger.com/archives/608
