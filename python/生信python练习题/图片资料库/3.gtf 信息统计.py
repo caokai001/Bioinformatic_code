@@ -75,4 +75,5 @@ p+theme(axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5))
 #stat_ geom_ 和position:https://zhuanlan.zhihu.com/p/29553873
 #ggplot2 画bar图参考:https://blog.csdn.net/RobertChenGuangzhi/article/details/48268099
 # 坐标轴倾斜45*，hjust/vjust 向左上方移动
-
+#R output png 如下：
+https://github.com/caokai001/Bioinformatic_code/blob/master/%E5%9B%BE%E7%89%87%E8%B5%84%E6%96%99%E5%BA%93/chr2_chr22_feature_distribution.png
