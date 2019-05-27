@@ -1,3 +1,16 @@
+# 多行注释
+# 选中代码后 快捷键 Ctrl + /
+#
+# 单行注释
+# 选中代码或者光标停留在该行，然后使用快捷键 Ctrl + /
+#
+# 多行代码缩进
+# 选中代码后，快捷键Tab
+#
+# 多行代码取消缩进
+# 选中代码后，快捷键shift + Tab
+
+
 import shutil
 import os
 import glob
@@ -11,29 +24,7 @@ for i in files:
 import collections
 count_gene=collections.OrderedDict()
 file_gtf=r"C:\Users\16926\Desktop\CTCF\test\hg38_chr22.gtf"
-with open(file_gtf) as fh:
-    for line in fh.readlines():
-        line_L=line.strip().split("\t")
-        chr_num="chr"+line_L[0]
-        type_info=line_L[2]
-        if type_info=="gene":
-            All_gene="all"+"_"+type_info
-            if chr_num not in count_gene:
-                count_gene[chr_num] = {}
-                count_gene[chr_num][All_gene]=0
-            count_gene[chr_num][All_gene]+=1
-            descript_info=line_L[8]
-            descript_info_L=descript_info.split("; ")
-            biotype=descript_info_L[4]
-            biotype_L=biotype.split(" ")
-            b_type=biotype_L[1]
-            b_type=eval(b_type)
-            if b_type not in count_gene[chr_num]:
-                count_gene[chr_num][b_type]=0
-            count_gene[chr_num][b_type]+=1
-for chr_num,count_ALL in count_gene.items():
-    for k,v in count_ALL.items():
-        print(chr_num,k,v)
+
 ##########
 with open (file_gtf) as fh:
    for line in fh:
@@ -56,8 +47,5 @@ with open (file_gtf) as fh:
          if b_type not in count_gene[chr_num]:
               count_gene[chr_num][b_type]=0
          count_gene[chr_num][b_type]+=1
-           
+
            print(count_gene)
-for chr_num,countAll in count_gene.items():
-   for k,v in countAll.items():
-      print(chr_num,k,v)
