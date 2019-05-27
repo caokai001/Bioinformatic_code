@@ -14,6 +14,7 @@
 import shutil
 import os
 import glob
+import pandas as pd
 ####移动文件shutil ;glob 搜索
 os.mkdir("test_data")
 files=glob.glob("PubMed*")
@@ -49,3 +50,27 @@ with open (file_gtf) as fh:
          count_gene[chr_num][b_type]+=1
 
            print(count_gene)
+###创建新文件 "test.txt",以tab分隔开
+with open("test.txt","w") as f:
+    for chr_num,countAll in count_gene.items():
+       for k,v in countAll.items():
+          print(chr_num+"\t"+k+"\t"+str(v),file=f)
+###读入文件画图
+#pd_data = pd.read_table("test.txt")
+
+'#########################'
+R 画图
+'#########################'
+setwd("C:\\Users\\16926\\Desktop\\研究生\\【研究生】\\课程作业-曹锴\\BIO-TM\\AGAC_training-annotations\\AGAC_training")
+library(ggplot2)
+#stat_ geom_ 和position:https://zhuanlan.zhihu.com/p/29553873
+#ggplot2 画bar图参考:https://blog.csdn.net/RobertChenGuangzhi/article/details/48268099
+# 坐标轴倾斜45*，hjust/vjust 向左上方移动
+mydata=read.table("test.txt")
+p <- ggplot(mydata,aes(x=mydata$V2,y=mydata$V3,fill=mydata$V1))+
+  geom_bar(position="dodge",stat="identity")  ###stat="identity":x,y 一一对应
+p<-p+xlab("feature")+ylab("count")+labs(fill="染色体")
+p+theme(axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5))
+
+
+
