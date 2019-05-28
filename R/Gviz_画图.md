@@ -1,4 +1,6 @@
-``` bam 添加chr
+``` 
+bam 添加chr
+
 [kcao@login data]$ for i in *.uniq.bam;do samtools view -h $i | awk 'BEGIN{FS=OFS="\t"} (/^@/ && !/@SQ/){print $0} $2~/^SN:[1-9]|^SN:X|^SN:Y|^SN:MT/{print $0}  $3~/^[1-9]|X|Y|MT/{$3="chr"$3; print $0} ' | sed 's/SN:/SN:chr/g' | sed 's/chrMT/chrM/g' | samtools view -bS - >./chr_bam/${i/uniq.bam/chr.uniq.bam};done
 ````
 
@@ -48,5 +50,5 @@ plotTracks(c(axTrack,accDT),
            chromosome="17",window = 250,type = "polygon",
            fill.histogram = "blue")
 ```
-如图：
+>如图：
 ![gviz-bw](https://github.com/caokai001/Bioinformatic_code/blob/master/%E5%9B%BE%E7%89%87%E8%B5%84%E6%96%99%E5%BA%93/J3B%5D%60%7DABEC_%24VOCY(H0%5B7%5D8.png)
