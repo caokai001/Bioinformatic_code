@@ -51,4 +51,4 @@ plotTracks(c(axTrack,accDT),
            fill.histogram = "blue")
 ```
 >如图：
-![gviz-bw](https://github.com/caokai001/Bioinformatic_code/blob/master/%E5%9B%BE%E7%89%87%E8%B5%84%E6%96%99%E5%BA%93/J3B%5D%60%7DABEC_%24VOCY(H0%5B7%5D8.png)
+![gviz-bw(https://github.com/caokai001/Bioinformatic_code/blob/master/%E5%9B%BE%E7%89%87%E8%B5%84%E6%96%99%E5%BA%93/J3B%5D%60%7DABEC_%24VOCY(H0%5B7%5D8.png)
