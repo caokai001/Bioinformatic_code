@@ -3,6 +3,8 @@ bam 添加chr
 
 [kcao@login data]$ for i in *.uniq.bam;do samtools view -h $i | awk 'BEGIN{FS=OFS="\t"} (/^@/ && !/@SQ/){print $0} $2~/^SN:[1-9]|^SN:X|^SN:Y|^SN:MT/{print $0}  $3~/^[1-9]|X|Y|MT/{$3="chr"$3; print $0} ' | sed 's/SN:/SN:chr/g' | sed 's/chrMT/chrM/g' | samtools view -bS - >./chr_bam/${i/uniq.bam/chr.uniq.bam};done
 
+sed  -e 's/SN:\([0-9XY]*\)/SN:chr\1/' -e 's/SN:MT/SN:chrM/'
+
 GViz学习：
 https://www.cnblogs.com/djx571/p/9712104.html
 ````
