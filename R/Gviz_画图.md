@@ -7,6 +7,7 @@ sed  -e 's/SN:\([0-9XY]*\)/SN:chr\1/' -e 's/SN:MT/SN:chrM/'
 
 GViz学习：
 https://www.cnblogs.com/djx571/p/9712104.html
+https://rockefelleruniversity.github.io/RU_VisualizingGenomicsData/viz_course/Presentations/singlepage/Viz_part_1.html
 ````
 
 ### 1.画bam 文件
