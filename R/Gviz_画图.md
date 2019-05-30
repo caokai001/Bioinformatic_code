@@ -11,6 +11,8 @@ https://rockefelleruniversity.github.io/RU_VisualizingGenomicsData/viz_course/Pr
 ````
 
 ### 1.画bam 文件
+教程可视化bam：http://xfliwz.lofter.com/post/cda29_ebafd66
+
 ```
 library(Rsamtools)
 setwd("C:\\Users\\16926\\Desktop\\CTCF")
