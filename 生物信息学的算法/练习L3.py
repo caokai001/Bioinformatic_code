@@ -1,4 +1,3 @@
-'''
 -*- coding: utf-8 -*-
 @Author  : kcao
 @Time    : 2019/6/1 13:59
@@ -88,4 +87,17 @@ while len(bp_number(A)[0]) > 0:                     # 当断点为0时，循环�
         x,y=bp_number(A)[0][0:2]
         A=A[:x-1]+list(reversed(A[x-1:y-1]))+A[y-1:]
         logger.info('step A:%r',A)                  ##格式化输出
-```
+
+
+
+
+
+
+
+
+###########################################################
+##结果：
+INFO:L3_arrange.py:step A:[4, 5, 3, 1, 2]
+INFO:L3_arrange.py:step A:[4, 5, 3, 2, 1]
+INFO:L3_arrange.py:step A:[1, 2, 3, 5, 4]
+INFO:L3_arrange.py:step A:[1, 2, 3, 4, 5]
