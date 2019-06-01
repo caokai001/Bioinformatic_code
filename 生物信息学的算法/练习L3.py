@@ -1,4 +1,3 @@
-
 '''
 -*- coding: utf-8 -*-
 @Author  : kcao
@@ -8,7 +7,11 @@
 '''
 
 # reversal methods
+
 ########################################
+#参考课程：L03_genome_rearrangement.pdf
+# 实现 翻转的算法。效率大约是最优方法的4倍。所以叫
+
 #  4-approximation algorithm (IV)
 # Algorithm simpleApprox
 # • while b(π) > 0,
