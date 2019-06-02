@@ -64,8 +64,8 @@ while i or j :
         P.append(["_",score_matrix.columns[j]])
         j=j-1
     elif (i>0 and score_matrix.iloc[i, j]==score_matrix.iloc[i-1,j]+punish):
+        P.append([score_matrix.index[i],"_"])
         i=i-1
-
 
 ##print result
 logger.info('step :print result ')
