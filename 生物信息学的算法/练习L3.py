@@ -85,7 +85,7 @@ with open(input_fa) as f:
 ##punish_matrix
 ## np.pad 矩阵填充
 A=np.array(similarity_matrix,dtype="int32")
-A=np.pad(A,((1,0),(1,0)),'constant', constant_values=int("-10"))
+A=np.pad(A,((1,0),(1,0)),'constant', constant_values=str(indel))
 A[0,0]=init_gap
 
 name_list=["-"]+alphabet
