@@ -4,7 +4,15 @@
 @Time    : 2019/6/1 13:59
 @Software: PyCharm
 @File    : L3.rearrange.py
+
+tips:
+    时间复杂度为O(M*N),长序列耗时长
+    空间复杂度为O(M*N)
+
+usage: python L01_1.py parameter1.txt input1.fa output.txt
+全局比对
 '''
+
 
 # reversal methods
 
@@ -21,84 +29,167 @@
 # • reverse an increasing strip to create a decreasing strip [b(π) does not change]
 ########################################
 
+
+
 import logging
-# import sys
-# argvs=sys.argv
+import os
+import numpy as np
+import pandas as pd
+import timeit  ##timer
+import sys
 
-logger = logging.getLogger('L3_arrange.py') ##logging 名字
-logging.basicConfig(level=logging.INFO)  # basicConfig是logging提供的简单的配置方法，不用basicConfig则需要手动添加handler
+os.chdir(r"C:\Users\16926\Desktop\研究生\【研究生】\研究生课程\算法课程\2019-生信算法课\ass1")
 
+#parameter = sys.argv[1]
+#input_fa = sys.argv[2]
+#output_file = sys.argv[3]
 
-#A = [8, 9, 3, 4, 7, 6, 5, 1, 2, 10, 11]
-A=[4, 5, 3, 1, 2]
-logger.info('step A:%r',A) ##格式化输出
+parameter,input_fa,output_file="parameter2.txt","input2.fa","output.txt"
 
-def bp_number(a):
-    '''
-    return 返回的函数包括：
-    num:breakpoint
-    up_strip:上升序列
+start = timeit.default_timer()
+logger = logging.getLogger('L01_1_global_alignment')
+logging.basicConfig(level=logging.INFO)
 
-    '''
-    a = a.copy()## 保留A序列
-    a.insert(0, 0)
-    a.append(max(a) + 1)
-    # [0, 8, 9, 3, 4, 7, 6, 5, 1, 2, 10, 11, 12]
-    num = []
-    # num 储存第几个逗号是breakpoint
-    for i in range(1, len(a)):
-        if abs(a[i] - a[i - 1]) != 1:
-            num.append(i)
-    down_strip = []
-    ##用断点来计算up
-    for i in range(len(num) - 1):
-        if a[num[i]] - a[num[i + 1] - 1] >= 0:     # Strip of size 1 is assumed to be decreasing.
-            down_strip.append([num[i]-1, num[i + 1] - 2])
-    return [num, down_strip]
+output_file=open(output_file,"w")
 
-###
-def min_index(b):
-    '''
-    min_index(bp_number(A)[1])
-    返回list 里值最小的index
-    b 为降序序列区间index
-    '''
-    min_index=A.index(max(A))
-    for i in bp_number(A)[1]:                       # decreasing 中最小的index
-        if A[i[1]]<A[min_index]:
-            min_index=i[1]
-    return min_index
+## 读取parameter文件
+count=0
+similarity_matrix = []
+with open(parameter) as f:
+    for line in f.readlines():
+        line = line.strip().strip("\n")
+        if len(line):
+            count += 1
+            if count == 1:
+                init_gap=line.split(";")[0]
+            elif count ==2:
+                indel=line.split(";")[0]
+            elif count ==4:
+                alphabet=line.split(" ")
+            elif count >5:
+                similarity_matrix.append(line.split())
 
 
-while len(bp_number(A)[0]) > 0:                     # 当断点为0时，循环终止
-    if len(bp_number(A)[1]) > 0:                    # 降序的子序列数目大于0
-        P_min = min_index(bp_number(A)[1])
-        if A[P_min]==1:
-            A=list(reversed(A[0:P_min+1]))+A[P_min+1:]
-            logger.info('step A:%r',A)              ##格式化输出
-            continue
-        P_min_1=A.index(A[P_min]-1)
-        if P_min_1<P_min :                     ##P_min_1在左边reversal
-            A = A[:P_min_1 + 1] + list(reversed(A[P_min_1+1:P_min+1])) + A[P_min + 1:]
-            logger.info('step A:%r',A)              ##格式化输出
+
+## 读取input 文件
+seq={}    ##储存seq
+with open(input_fa) as f:
+    for line in f.readlines():
+        if line.startswith(">"):
+            name=line.lstrip(">").strip("\n")
+            seq[name] = ""
         else:
-            A=A[:P_min+1]+list(reversed(A[P_min+1:P_min_1+1]))+A[P_min_1+1:]
-            logger.info('step A:%r',A)              ##格式化输出
-    else:
-        x,y=bp_number(A)[0][0:2]
-        A=A[:x-1]+list(reversed(A[x-1:y-1]))+A[y-1:]
-        logger.info('step A:%r',A)                  ##格式化输出
+            seq[name] += line.strip("\n").strip()
+
+
+##punish_matrix
+## np.pad 矩阵填充
+A=np.array(similarity_matrix,dtype="int32")
+A=np.pad(A,((1,0),(1,0)),'constant', constant_values=int("-10"))
+A[0,0]=init_gap
+
+name_list=["-"]+alphabet
+punish_matrix=pd.DataFrame(A,columns=name_list,index=name_list)  ##创建标签
+#     _   a   c   g   t
+# _   0  -1  -1  -1  -1
+# a  -1   2  -1  -1  -1
+# c  -1  -1   2  -1  -1
+# g  -1  -1  -1   2  -1
+# t  -1  -1  -1  -1   2
+
+
+
+#str_one="TGAAGTC"
+#str_two="TAAGGC"
+str_one=seq["seq1"]
+str_two=seq["seq2"]
+
+
+logger.info('########## global alignment ##########')
+logger.info('str_one:%r',str_one)
+logger.info('str_two:%r',str_two)
+##score_matrix
+##初始化矩阵
+logger.info('step :initial matrix')
+index=["-"]+[i for i in str_one]
+columns=["-"]+[i for i in str_two]
+score_matrix=pd.DataFrame(np.zeros([len(str_one)+1,len(str_two)+1]),index=index,columns=columns)
+
+##fill the score_matrix
+logger.info('step :fill the score_matrix')
+
+for i in range(len(str_one)+1):
+    for j in range(len(str_two)+1):
+        if i == 0 or j == 0:
+            score_matrix.iloc[i,j] = int(init_gap)+int(indel)*i+int(indel)*j
+        else:
+            insert = score_matrix.iloc[i,j-1]+int(indel)
+            delect = score_matrix.iloc[i-1,j]+int(indel)
+            match = score_matrix.iloc[i-1,j-1]+int(punish_matrix.loc[str_one[i-1],str_two[j-1]])
+            score_matrix.iloc[i, j] = max(insert,delect,match)
+
+##back_tracking the alignment
+logger.info('step :back_tracking the alignment')
+P=[]
+i=len(str_one)
+j=len(str_two)
+while i or j :
+    if (i>0 and j>0 and score_matrix.iloc[i, j]==score_matrix.iloc[i-1,j-1]+int(punish_matrix.loc[str_one[i-1],str_two[j-1]])):
+        P.append([score_matrix.index[i],score_matrix.columns[j]])
+        i=i-1
+        j=j-1
+    elif (j>0 and score_matrix.iloc[i, j]==score_matrix.iloc[i,j-1]+int(indel)):
+        P.append(["-",score_matrix.columns[j]])
+        j=j-1
+    elif (i>0 and score_matrix.iloc[i, j]==score_matrix.iloc[i-1,j]+int(indel)):
+        P.append([score_matrix.index[i],"-"])
+        i=i-1
+
+
+##print result
+score=0
+for x,y in P:
+    score+=int(punish_matrix.loc[x,y])
+
+
+logger.info('step :print result ')
+A_str=B_str=""
+for i,y in P[::-1]:
+    A_str = A_str + i
+    B_str = B_str + y
+#print("score = {}".format(score))
+#print("str_one : {}\nstr_two : {}".format(A_str,B_str))
+output_file.write("score = {:.1f}\n>seq1\n{}\n>seq2\n{}".format(score,A_str,B_str))
+output_file.close()
+
+print("score = {:.1f}\n>seq1\n{}\n>seq2\n{}".format(score,A_str,B_str))
+
+##done!
+logger.info('done ^-^ ！')
+
+end = timeit.default_timer()
+logger.info('running time:%r',str(end-start))
 
 
 
 
 
+#############################################
+#结果
+############################################
+INFO:L01_1_global_alignment:########## global alignment ##########
+INFO:L01_1_global_alignment:str_one:'HEAGAWGHEE'
+INFO:L01_1_global_alignment:str_two:'PAWHEAE'
+INFO:L01_1_global_alignment:step :initial matrix
+INFO:L01_1_global_alignment:step :fill the score_matrix
+INFO:L01_1_global_alignment:step :back_tracking the alignment
+INFO:L01_1_global_alignment:step :print result 
+score = -8.0
+>seq1
+HEAGAWGHEE
+>seq2
+--P-AWHEAE
+INFO:L01_1_global_alignment:done ^-^ ！
+INFO:L01_1_global_alignment:running time:'0.04599526172114565'
 
 
-
-###########################################################
-##结果：
-INFO:L3_arrange.py:step A:[4, 5, 3, 1, 2]
-INFO:L3_arrange.py:step A:[4, 5, 3, 2, 1]
-INFO:L3_arrange.py:step A:[1, 2, 3, 5, 4]
-INFO:L3_arrange.py:step A:[1, 2, 3, 4, 5]
