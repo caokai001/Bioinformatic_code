@@ -80,3 +80,24 @@ logger.info('done ^-^ ！')
 
 end = timeit.default_timer()
 logger.info('running time:%r',str(end-start))
+
+
+
+
+
+
+###################################################
+# 结果
+###################################################
+
+INFO:L01_1_global_alignment:########## global alignment ##########
+INFO:L01_1_global_alignment:str_one:'ACAATCC'
+INFO:L01_1_global_alignment:str_two:'AGCATGC'
+INFO:L01_1_global_alignment:step :initial matrix
+INFO:L01_1_global_alignment:step :fill the score_matrix
+INFO:L01_1_global_alignment:step :back_tracking the alignment
+INFO:L01_1_global_alignment:step :print result 
+str_one : A_CATCC
+str_two : AGCATGC
+INFO:L01_1_global_alignment:done ^-^ ！
+INFO:L01_1_global_alignment:running time:'0.031113404366736708'
