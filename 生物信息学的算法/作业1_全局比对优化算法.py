@@ -2,6 +2,7 @@
 # filling score matrix row by row
 # use mid point algorithm to divide the sequence to two substring
 # then use Recursive to output the alignment information
+# https://ab.inf.uni-tuebingen.de/teaching/ws06/albi1/script/pairalign_script.pdf
 
 # usage :python script_name.py parameter.txt input.fa output.txt
 
