@@ -3,16 +3,33 @@
 # use mid point algorithm to divide the sequence to two substring
 # then use Recursive to output the alignment information
 
+# usage :python script_name.py parameter.txt input.fa output.txt
+
 import logging
 import os
+import sys
+import time
 import numpy as np
+import argparse
+parser=argparse.ArgumentParser()
+parser.add_argument("parameter_txt")
+parser.add_argument("input_fa")
+parser.add_argument("output_txt")
+parser.add_argument('--version', action='version', version='version 2.0')
+
+
+args=parser.parse_args()
+# print(args["input.fa"])
+parameter=args.parameter_txt
+input_fa=args.input_fa
+output_file=args.output_txt
 
 ########################################
 # Parameter information
 logger = logging.getLogger('ss1_global_alignment')
 logging.basicConfig(level=logging.INFO)
 os.chdir(r"C:\Users\16926\Desktop\研究生\【研究生】\研究生课程\算法课程\2019-生信算法课\ass1")
-parameter, input_fa, output_file = "parameter3.txt", "input3.fa", "output.txt"
+#parameter, input_fa, output_file = sys.argv[1], sys.argv[2], sys.argv[3]
 global_max_score = None
 ########################################
 
@@ -33,8 +50,8 @@ with open(parameter) as f:
             elif count > 5:
                 similarity_matrix.append(line.split())
 
-# 读取input 文件
-seq = {}  ##储存seq
+# loading input file
+seq = {}  ##save seq
 with open(input_fa) as f:
     for line in f.readlines():
         if line.startswith(">"):
@@ -45,10 +62,6 @@ with open(input_fa) as f:
 
 str_one = seq["seq1"]
 str_two = seq["seq2"]
-
-# 提取punish_value
-def fetch_punish(a1=0, a2=0):
-    return punish_matrix.loc[str_one[a1 - 1], str_two[a2 - 1]]
 
 
 # fill and memory the position by row
@@ -79,11 +92,11 @@ def find_score(string_one, string_two):
 
     str_one="acaatcc"
     str_two="agcatgc"
-    find_score(str_one,str_two)=V[len(str_two)]=7 意味着str_one与str_two 最大得分为7.
 
-    str_one[0:4]表示str_one 前四个字母：'acaa'
-    str_two[0:7]表示str_two 前7字符：'agcatgc'
-    find_score(str_one[0:4],str_two[0:7])=V[len(str_two[0:7])]=2
+    find_score(str_one,str_two)=7
+    it means The maximum alignment score of str_one and str_two is 7.
+
+    find_score(str_one[0:4],str_two[0:7])=V[len(str_two[0:7]=2
 
     '''
     n = len(string_one)
@@ -96,7 +109,6 @@ def find_score(string_one, string_two):
         V[0] = V_prev + indel
         for j in range(1, m + 1):
             V_cur = V[j]
-            # V[j]=max(V_prev+int(   punish_matrix.loc[string_one[i-1],string_two[j-1]]    ),V_cur+int(indel),V[j-1]+int(indel))
             V[j] = max(V_prev + punish_score[string_one[i - 1]][string_two[j - 1]],
                        V_cur + indel,
                        V[j - 1] + indel)
@@ -104,15 +116,15 @@ def find_score(string_one, string_two):
     return V
 # find_score(str_one[0:4],str_two[0:7])
 
-
-
 # mid-point_agrithom
 def mid_point(string_one, string_two):
     '''
 
     :param string_one:
     :param string_two:
-    :return: 返回断点位置。例如：（4,4）意味着两个string的前四个字符为mid_point位置。
+    :return: the breakpoint position.
+    For example:
+    (4,4) means that the first four characters of the two strings are mid_point positions.
     '''
     n = len(string_one)
     m = len(string_two)
@@ -164,18 +176,21 @@ def global_align(s1, s2):
     array = back_track(s1, s2)
     S1, S2 = (array[i] for i in range(0, len(array), 2)), (array[i] for i in range(1, len(array), 2))
     output_file.writelines("score = {:.1f}\n".format(global_max_score))
-    #output_file.writelines(">seq1\n" + "".join(S1) + "\n" + ">seq2\n" + "".join(S2))
-    print(">seq1\n" + "".join(S1) + "\n" + ">seq2\n" + "".join(S2))
+    output_file.writelines(">seq1\n" + "".join(S1) + "\n" + ">seq2\n" + "".join(S2))
+    #print(">seq1\n" + "".join(S1) + "\n" + ">seq2\n" + "".join(S2))
 
 
 # main program
 if __name__ == '__main__':
-    logger.info("loading argument:\n%s ,%s ,%s",parameter,input_fa,output_file)
+    logger.info("     loading argument:\n     %s ,%s ,%s",parameter,input_fa,output_file)
     output_file = open(output_file, "w",encoding='utf8')
     start = time.time()
-    global_align(str_one[:1000], str_two[:1000])
+    global_align(str_one, str_two)
     # print(find_score(str_one, str_two))
     end = time.time()
-    logger.info('running time: \n%ss\n ok !',str(end - start))
-    logger.info("\nscore = {:.1f}\n".format(global_max_score))
+    logger.info('     running time: %ss',str(end - start))
+    logger.info("     score = {:.1f}".format(global_max_score))
+    logger.info("     finished !")
+    logger.info("    !!please open the output file to see more information!! ")
     output_file.close()
+
