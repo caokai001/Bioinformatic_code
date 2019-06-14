@@ -1,4 +1,30 @@
 ## 1.看CTCF中snp 突变位置，与peak 关系。已知peak区域motif ,再和snp 关联，大部分都在非关键位置突变
+### 1.1 linux 输出count数目
+```
+[kcao@comput14 LNCaP]$ cat /public/home/kcao/prostate_cancer/CTCF_CHIP/6.result/LNCaP/LNCaP_motif_snp.tab|awk '{print $NF}'|sort -V |uniq -c|cut -f 2
+     91 1
+     96 2
+     65 3
+     47 4
+     23 5
+     74 6
+     40 7
+     59 8
+     45 9
+     26 10
+     65 11
+     66 12
+     30 13
+     56 14
+     67 15
+     71 16
+     74 17
+     73 18
+     74 19
+
+```
+
+
 ### motif 上snp 个数
 ```
 snp_pos=read.table("LNCaP_snp_count")
@@ -9,6 +35,41 @@ ggplot(snp_pos,aes(x=pos,y=count))+geom_bar(stat="identity")+
   ggtitle("LNCaP CTCF motif and snp")+scale_x_discrete(labels=motif)
 ```
 ![pos 与snp](https://upload-images.jianshu.io/upload_images/9589088-5b480f9ae7a62409.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+### 1.2 获取snp 与motif 关系，进行分组，突变成motif base,突变成其他base
+```
+## python3
+
+dic = OrderedDict()
+A=list("TGGCCACCAGGGGGCGCTA")
+B=[str(i) for i in range(1,20)]
+dic=dict(zip(B,A))
+dic["1"]=["T","C"]
+dic["3"]=["G","A"]
+dic["7"]=["C","G"]
+dic["8"]=["C","T"]
+dic["11"]=["G","A"]
+dic["12"]=["G","T"]
+dic["16"]=["G","A"]
+dic["17"]=["C","G"]
+dic["18"]=["T","C"]
+dic["19"]=["A","G"]
+
+[[k,dic[k]] for k in (dic.keys())]
+
+LNCaP_judge=open(r"C:\Users\16926\Desktop\LNCaP_judge.txt","w")
+with open(r"C:\Users\16926\Desktop\LNCaP_motif_snp.tab") as f:
+    for line in f.readlines():
+        line=line.strip().split()
+        if line[-2] ==dic[line[-1]] :
+            LNCaP_judge.write("\t".join(line)+"\tYes\n")
+        else:
+            LNCaP_judge.write("\t".join(line)+"\tNo\n")
+LNCaP_judge.close()
+
+```
+
+
 ###
 ```
 LNCaP_judge=read.table("LNCaP_judge.txt")
