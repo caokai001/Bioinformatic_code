@@ -1,0 +1,27 @@
+## 1.yab K562,MCF7 RNApolII交互loop 长度分布
+```
+library(tidyverse)
+K562<-read.table("K562.cluster.FDRfiltered.txt")
+MCF7<-read.table("MCF7.cluster.FDRfiltered.txt")
+
+merge_length=rbind(K562[7:9],MCF7[7:9])%>%mutate(state=c(rep("K562",nrow(K562)),rep("MCF7",nrow(MCF7))))
+colnames(merge_length)=c("PET_count","interaction_type","length","state")
+A=filter(merge_length,interaction_type==1)%>%select(length,state)%>%mutate(length_kb=length/1000)
+
+
+#View(A)
+ggplot(A,aes(x=length_kb,color=state))+labs(title="Length distribution of RNAPoLII",x="length (kb)",y="density")+
+  geom_density(alpha=.3)+scale_x_log10()+
+  geom_vline(xintercept = quantile(A$length_kb,0.9),linetype="dashed",color="Blue")+
+  annotate("text", x=quantile(A$length_kb,0.9) , y=1 ,hjust=-0.5,label=paste(round(quantile(A$length_kb,0.9),1),"kb: 90%"),col= "Blue")+
+  #80 % 分位线
+  geom_vline(xintercept = quantile(A$length_kb,0.8),linetype="dashed",color="red")+
+  annotate("text", x=quantile(A$length_kb,0.8) , y=0.8 ,hjust=-0.8,label=paste(round(quantile(A$length_kb,0.8),1),"kb: 80%"),col= "red")
+ 
+ ```
+ 图如下：主要分布在200kb 之内
+ > quantile(A$length_kb,0.925)
+  92.5% 
+201.319
+
+ [loop 长度分布图](https://upload-images.jianshu.io/upload_images/9589088-f52a0f840be211b4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
