@@ -142,3 +142,6 @@ sink()  # 结束重定向
 
 
 ```
+
+>结果
+![](https://upload-images.jianshu.io/upload_images/9589088-3499b9f8fe7c6a16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
