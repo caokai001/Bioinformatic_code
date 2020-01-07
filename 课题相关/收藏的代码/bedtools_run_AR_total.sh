@@ -1,5 +1,5 @@
 ##############
-## 绘制其他转录因子（FOXA1,SOX9,HOXB13）突变图
+## 绘制转录因子AR突变图
 
 ### 1. 19个primary H3K27ac,处理合并为Prostate_hg19_CRE.bed
 
