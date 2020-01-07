@@ -17,6 +17,7 @@ bedtools merge -i stdin >/public/home/kcao/Desktop/Cancer_cell_2019/prostate_CRE
 
 
 
+
 ### 2. 三个细胞系ChIP-seq 数据合并，缩小有效的CRE范围，以AR为例.
 # 2.1 从cistrome 下载了三个细胞系AR ChIP-seq 数据，并且进行坐标轴转换
 source activate /public/home/kcao/anaconda2/envs/atac
