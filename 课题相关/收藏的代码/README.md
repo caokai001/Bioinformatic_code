@@ -14,4 +14,6 @@
 ```
 4. merge_mutation_Enrichment_Score_plot.R ： 获得了每一个TF后，对突变得分画图<br>
 5. test_delected.R : 两个转录因子交集区域，突变是否更加显著.<br>
-6. model_fit_by_R.R : 使用`fitdistrplus`进行模型拟合
+6. model_fit_by_R.R : 使用`fitdistrplus`进行模型拟合<br>
+7. binding_site_mutation_GO.R : 突变位于某一个转录因子，提取附近基因，进行GO富集（或者DAVID）<br>
+
