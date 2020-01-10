@@ -1,4 +1,6 @@
-> 用R包拟合分布
+> 用R包拟合分布<br>
+参考教程：http://www.di.fc.ul.pt/~jpn/r/distributions/fitting.html
+
 
 ```
 library(fitdistrplus)
