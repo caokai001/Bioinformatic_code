@@ -4,4 +4,4 @@
 3.plot_pos_data_AR_500bp.txt : AR突变情况，用 bedtools统计<br>
 4.plot_pos_data_AR_500bp_direction.txt ： AR突变情况，用bedtools 统计，包括突变方向<br>
 5.merge_mutation_Enrichment_Score : 每一个转录因子突变得分汇总文件<br>
-
+6.test_delected.txt : 转录因子之间组合，TF-TF 突变得分分布4个图，参考皮肤癌CTCF_RAD21
