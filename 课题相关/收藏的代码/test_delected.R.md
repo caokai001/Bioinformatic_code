@@ -51,8 +51,8 @@ ggsave("The_mutation_score_of_different_TF_type.pdf" ,P,width = 6, height = 10)
 
 ```
 
-例：两个转录因子交互区域，突变是否更强.
+例：两个转录因子交互区域，突变是否更强<br>
 ![2020年1月10日22:04:53](https://upload-images.jianshu.io/upload_images/9589088-8a942a4d8f5c9708.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-例：输入文件展示
+例：输入文件展示<br>
 ![2020年1月10日22:06:20](https://upload-images.jianshu.io/upload_images/9589088-d396ffd9b51813bf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
