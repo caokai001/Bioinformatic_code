@@ -57,5 +57,5 @@ ggsave("The_mutation_score_of_different_TF_type.pdf" ,P,width = 6, height = 10)
 例：输入文件展示<br>
 ![2020年1月10日22:08:40](https://upload-images.jianshu.io/upload_images/9589088-6a1373195d39c249.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-例：输入数据，用pheatmap 热图聚类
+例：输入数据，用pheatmap 热图聚类<br>
 ![2020年1月10日22:10:08](https://upload-images.jianshu.io/upload_images/9589088-fcc15e9bdbd5d76a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
